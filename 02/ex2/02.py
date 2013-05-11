@@ -7,8 +7,7 @@
 # time travel). 
 #
 
-# this function is required, even though the problem statement
-# doesn't mention it, the marker wants one.
+# this function is required, even though the problem statement doesn't mention it, the marker wants one.
 def isLeapYear(year):
     return (year % 4 == 0 and year % 100 != 0) or year % 400 == 0
 
@@ -16,46 +15,18 @@ def daysBetweenDates(year1, month1, day1, year2, month2, day2):
     ##
     # Your code here.
     ##
-    count = 0
-    yearX = year1
-    while yearX < year2:
-        if isLeapYear(yearX):
-            count = count + 1
-        count = count + 365
-        yearX = yearX + 1
+    count = day_of_year(year2,month2,day2)
     count -= day_of_year(year1,month1,day1)
-    count += day_of_year(year2,month2,day2)
+    while year1 < year2:
+        count += day_of_year(year1, 12, 31)
+        year1 = year1 + 1
     return count
 
 def day_of_year(year, month, day):
-    count = day
-    if month >= 1:
-        count = count + 0
-    if month >= 2:
-        count = count + 31
-    if month >= 3:
-        count = count + 28
-        if isLeapYear(year):
-            count = count + 1
-    if month >= 4:
-        count = count + 31
-    if month >= 5:
-        count = count + 30
-    if month >= 6:
-        count = count + 31
-    if month >= 7:
-        count = count + 30
-    if month >= 8:
-        count = count + 31
-    if month >= 9:
-        count = count + 31
-    if month >= 10:
-        count = count + 30
-    if month >= 11:
-        count = count + 31
-    if month >= 12:
-        count = count + 30
-    return count
+    month_length = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    if isLeapYear(year):
+        month_length[1] += 1
+    return day + sum(month_length[:month-1])
 
 # Test routine
 
